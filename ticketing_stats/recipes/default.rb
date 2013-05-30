@@ -1,4 +1,4 @@
-node[:deploy].each do |app_name, deploy|
+node[:deploy].each do |application, deploy|
 
   Chef::Log.debug("Deploying #{application} to the node")
 
