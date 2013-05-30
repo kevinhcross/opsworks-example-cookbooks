@@ -1,5 +1,7 @@
 node[:deploy].each do |app_name, deploy|
 
+  Chef::Log.debug("Deploying #{application} to the node")
+
   script "test_deploy_script" do
     interpreter "bash"
     user "root"
@@ -9,4 +11,14 @@ node[:deploy].each do |app_name, deploy|
     EOH
   end
 
+  opsworks_deploy_dir do
+    user deploy[:user]
+    group deploy[:group]
+    path deploy[:deploy_to]
+  end
+
+  opsworks_deploy do
+    app application
+    deploy_data deploy
+  end
 end
