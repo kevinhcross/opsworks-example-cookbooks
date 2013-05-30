@@ -1,6 +1,6 @@
 node[:deploy].each do |application, deploy|
 
-  Chef::Log.info("Deploying #{application} to #{deploy_to}")
+  Chef::Log.info("Deploying #{application} to #{node[:deploy][:ticketingstats][:deploy_to]}")
 
   script "test_deploy_script" do
     interpreter "bash"
@@ -11,7 +11,7 @@ node[:deploy].each do |application, deploy|
     EOH
   end
 
-  directory deploy_to do
+  directory node[:deploy][:ticketingstats][:deploy_to] do
     owner "root"
     group "root"
     mode "0755"
