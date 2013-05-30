@@ -1,3 +1,11 @@
+
+directory node[:deploy][:ticketingstats][:deploy_to] do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
+
 node[:deploy].each do |application, deploy|
 
   Chef::Log.info("Deploying #{application} to #{node[:deploy][:ticketingstats][:deploy_to]}")
@@ -9,13 +17,6 @@ node[:deploy].each do |application, deploy|
     code <<-EOH
     echo "what about this one?" >> khc_deploy.log
     EOH
-  end
-
-  directory node[:deploy][:ticketingstats][:deploy_to] do
-    owner "root"
-    group "root"
-    mode "0755"
-    action :create
   end
 
   opsworks_deploy_dir do
