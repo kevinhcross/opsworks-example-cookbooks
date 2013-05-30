@@ -1,6 +1,6 @@
 node[:deploy].each do |application, deploy|
 
-  Chef::Log.debug("Deploying #{application} to the node")
+  Chef::Log.info("Deploying #{application} to #{deploy_to}")
 
   script "test_deploy_script" do
     interpreter "bash"
@@ -9,6 +9,13 @@ node[:deploy].each do |application, deploy|
     code <<-EOH
     echo "what about this one?" >> khc_deploy.log
     EOH
+  end
+
+  directory deploy_to do
+    owner "root"
+    group "root"
+    mode "0755"
+    action :create
   end
 
   opsworks_deploy_dir do
