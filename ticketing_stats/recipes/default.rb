@@ -5,7 +5,7 @@ node[:deploy].each do |app_name, deploy|
     user "root"
     cwd "#{deploy[:deploy_to]}"
     code <<-EOH
-    echo "does this message appear?" >> khc_deploy.log
+    echo "what about this one?" >> khc_deploy.log
     EOH
   end
 
