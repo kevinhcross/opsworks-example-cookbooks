@@ -54,5 +54,5 @@ default["tomcat"]["more_opts"] = []
 # urls for arks and sha256 checksum for each
 default['tomcat']['6']['url'] = 'http://chefresources.edinburgh.ncrcoe.com/tomcat/apache-tomcat-6.0.36.tar.gz'
 default['tomcat']['6']['checksum'] = 'bc1be532d48a239a6945b028bf8f253087d3405f6522229226c484bf8ae4d45e'
-default['tomcat']['7']['url'] = 'http://chefresources.edinburgh.ncrcoe.com/tomcat/apache-tomcat-7.0.32.tar.gz'
-default['tomcat']['7']['checksum'] = 'c26ae0bc424e2639f5c77eb4d274a026c5a584a404dbdbb247ab6d2c3ebe8258'
+default['tomcat']['7']['url'] = 'http://mirror.metrocast.net/apache/tomcat/tomcat-7/v7.0.40/bin/apache-tomcat-7.0.40.tar.gz'
+default['tomcat']['7']['checksum'] = '430a3eec73b6994dbbd6e17728f131fa3609bdd923547445a745d4ffb6d9cf01'
