@@ -1,0 +1,39 @@
+{
+  "name": "tomcat",
+  "description": "Installs/Configures tomcat",
+  "long_description": "Description\n===========\n\nInstalls and configures the Tomcat, Java servlet engine and webserver.\n\n\nRequirements\n============\n\nPlatform: \n\n* CentOS, Red Hat, Fedora (OpenJDK)\n\nThe following Opscode cookbooks are dependencies:\n\n* java, ark, maven\n\n\nAttributes\n==========\n\n* prefix_dir - /usr/local/, /var/lib/, etc.\n\nRecipes\n=======\n\n* default.rb -- installs tomcat via debian package only on a\ndebian based distribution. Otherwise installs via tomcat7_binary.rb\n* package.rb -- installs tomcat7 unless node['tomcat']['version'] set\nto 6. The package typically installs a system service.\n* ark.rb installs a vanilla tomcat and creates a service\n* base.rb  installs the tomcat from the binary provided by\ntomcat.apache.org, will use version 7 unless node['tomcat']['version'] set\nto 6. No tomcat service is installed.\n\nAll of the default webapps such as \"ROOT\" and \"manager\" are removed in the tomcat::ark recipe\n\nark\n---\n\nThis recipe creates a vanilla tomcat installation based on the tarball\nof bytecode available from http://tomcat.apache.org and places it in \n${prefix_dir}. Additionally, it configures a system v\ninit script and creates the symlink\n\n    ${prefix_dir}/tomcat/default -> ${prefix_dir}/tomcat/tomcat{6,7}\n\n\nbase\n----\n\nIt creates an installation of tomcat to prefix_dir. It does very\nlittle besides that.\n\nBy default it uses the tomcat 7 by including tomcat7 recipe\n\nThis recipe is intended to be used together with the CATALINA_BASE method to install\nmultiple tomcat instances that use the same set of tomcat installation\nfiles. This recipe does not add any services. It is intended to be used together with the tomcat lwrp.\n\n    ${prefix_dir}/tomcat/tomcat{6,7}  # CATALINA_HOME\n\nand creates a symlink to that directory\n\n    ${prefix_dir}/tomcat/default -> ${prefix_dir}/tomcat/tomcat{6,7}\n\n\n\nResources/Providers\n===================\n\ntomcat\n\n# Actions\n\n- :install: install\n- :remove: remove the instance\n\n# Attribute Parameters\n\n- http_port: port_num or true/false, default to true and 8080\n- ajp_port:  port_num or true/false, default to true and 8009\n- shutdown_port: port_num or true/false, default to 8005\n- host_name: name for Host element, defaults to localhost\n- session_timeout: global session timeout set in conf/web.xml\n- unpack_wars: defaults to true\n- auto_deploy: defaults to true\n- jvm_opts: Array of options for the JVM\n- jmx_opts: Array of JMX monitoring options\n- jmx_access: String containing username and access permissions, will\n  be written to the jmxremote.access file\n- jmx_password: String containing username and password, will\n  be written to the jmxremote.password file\n- jmx_access_file: the file that the access role and permissions will\n  be written to, defaults to `CATALINA_BASE/conf/jmxremote.access`\n- jmx_password_file: the file that the username and password will\n  be written to, defaults to `CATALINA_BASE/conf/jmxremote.password`\n- manage_config_file: whether to update the configuration files\n  /etc/default/app_name, `CATALINA_BASE/conf/server.xml`, and\n  /etc/init.d/app_name after initial creation. If false, those files\n  will not be changed after initial templating. Useful if you have\n  devs who want control of their tomcat instance but don't want to\n  learn chef. Great for massive configuration drift.\n- webapp_opts: (Deprecated) Array of directives passed to a webapp\n- more_opts: (Deprecated) crap that doesn't fit anywhere else\n- service_name: an alternate name for the init script, useful if you are using\n  a clustering tool like Pacemaker or heartbeat to manage the tomcat\n  service\n- clustered: set to true if you do not want the tomcat service to\n  start automatically, defaults to false\n- env: environment variables to export in init script\n- user: user to run the tomcat as\n- shutdown_wait: how long the shutdown script should wait before\n  killing the process\n\n\nAn exception will be thrown if one of the values specified by *_port\nis already in use by another tomcat lwrp\n\n### Example\n\n```\ntomcat \"pentaho\" do\n  http_port  false\n  https_port \"8443\"\n  version    \"7\"\nend\n```\n\nTo deploy a webapp to the new tomcat, you use a deploy resource or a\nmaven resource (coming soon).\n\n### Example using JMX\n\n```\ntomcat \"liferay\" do\n  user liferay_user\n  action :install\n  jvm_opts node['liferay']['jvm_opts']\n  jmx_opts node['liferay']['jmx_opts']\n  jmx_access node['liferay']['jmx_access']\n  jmx_password node['liferay']['jmx_password']\nend\n```\n\n\n### Clustered configuration\n\n```\ntomcat \"liferay\" do\n  user liferay_user\n  action :install\n  jvm_opts node['liferay']['jvm_opts']\n  service_name \"liferay-tomcat\"\n  clustered true\nend\n```\n\n\nTODO\n====\n\n\nLicense and Author\n==================\n\nAuthor:: Bryan W. Berry (<bryan.berry@gmail.com>)\n\nCopyright:: 2012, Bryan W. Berry\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "fedora": ">= 0.0.0"
+  },
+  "dependencies": {
+    "java": ">= 0.0.0",
+    "logrotate": ">= 0.0.0",
+    "ark": ">= 0.0.0",
+    "maven": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "tomcat::default": "Installs and configures Tomcat"
+  },
+  "version": "0.12.2"
+}
