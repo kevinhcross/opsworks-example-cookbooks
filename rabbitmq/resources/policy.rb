@@ -19,7 +19,11 @@
 #
 
 actions :set, :clear, :list
-default_action :set
+def initialize(*args)
+  super
+  @action = :set
+end
+
 
 attribute :policy, :kind_of => String, :name_attribute => true
 attribute :pattern, :kind_of => String
