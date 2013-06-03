@@ -29,4 +29,7 @@ node[:deploy].each do |application, deploy|
     app application
     deploy_data deploy
   end
+
+# KHC TODO: Once the tomcat is in place I will need to create a symlink between its apps dir and this deploy dir
+
 end
