@@ -105,7 +105,8 @@ define :mongodb_instance, :mongodb_type => "mongod" , :action => [:enable, :star
       "nojournal" => nojournal,
       "enable_rest" => params[:enable_rest]
     )
-    notifies :restart, "service[#{name}]"
+    #notifies :restart, "service[#{name}]"
+    notifies :restart, resources(:service => "#{name}")
   end
   
   # log dir [make sure it exists]
